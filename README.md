@@ -12,7 +12,9 @@ npm install --save react-form-fp
 
 ## Usage
 
-```tsx
+### Coming Soon
+
+<!-- ```tsx
 import React, { Component } from 'react'
 
 import MyComponent from 'react-form-fp'
@@ -23,7 +25,7 @@ class Example extends Component {
     return <MyComponent />
   }
 }
-```
+``` -->
 
 ## License
 
