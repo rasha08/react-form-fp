@@ -12,3 +12,22 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.beta-warn {
+  margin-top: 100px;
+}
+
+.sidebar {
+  margin: 0 1rem;
+}
+
+h1 {
+  margin: 0;
+  text-align: center;
+}
+
+blockquote {
+  text-align: center;
+  font-weight: normal;
+  font-style: italic;
+}
