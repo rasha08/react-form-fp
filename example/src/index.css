@@ -6,6 +6,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
 }
 
 code {
@@ -21,6 +22,15 @@ code {
   margin: 0 1rem;
 }
 
+.sidebar h5 {
+  margin-left: 20px !important;
+  color: #000000 !important;
+}
+
+.sidebar h4 {
+  margin-bottom: 0 !important;
+}
+
 h1 {
   margin: 0;
   text-align: center;
@@ -30,4 +40,53 @@ blockquote {
   text-align: center;
   font-weight: normal;
   font-style: italic;
+}
+
+.section {
+  border-top: 1px solid gray;
+}
+
+.example {
+  position: relative;
+}
+
+.example input {
+  margin: 10px 0;
+  width: 90%;
+}
+
+.example-doc {
+  max-height: 500px;
+  max-width: 100%;
+  overflow: auto;
+}
+
+pre {
+  background-color: rgba(0, 0, 0, 0.005) !important;
+}
+
+pre code {
+  font-size: 14px;
+  font-family: 'Courier New', Courier, monospace;
+  color: black;
+}
+
+.example-toggle {
+  position: absolute;
+  bottom: -40px;
+  right: 0;
+  padding: 5px 10px;
+}
+
+a {
+  color: #000000 !important;
+  background-image: linear-gradient(
+      5deg,
+      transparent 65%,
+      #000000 80%,
+      transparent 90%
+    ),
+    linear-gradient(165deg, transparent 5%, #000000 15%, transparent 25%),
+    linear-gradient(165deg, transparent 45%, #000000 55%, transparent 65%),
+    linear-gradient(15deg, transparent 25%, #000000 35%, transparent 50%);
 }

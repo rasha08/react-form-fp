@@ -13,7 +13,6 @@ import {
 } from './types'
 import { formReducer } from './reducer'
 import { useFormActions } from './actions'
-import { omit } from 'ramda'
 import { useValidation, ValidationSchema } from '../utils/useValidatiion'
 
 type Validate<FormName extends string | number, T> = (
@@ -54,7 +53,7 @@ export const FormContextProvider: Form = <FormName extends string | number, T>({
   children
 }) => {
   const [state, dispatch] = useReducer(formReducer, {
-    ...omit(initialState, '__typename'),
+     ...initialState,
     ...{ errors: {} }
   })
 

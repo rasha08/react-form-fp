@@ -11372,6 +11372,11 @@ url@^0.11.0:
     punycode "1.3.2"
     querystring "0.2.0"
 
+use-validation-hooks@^1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/use-validation-hooks/-/use-validation-hooks-1.0.8.tgz#fcd98ac520a6ed7bb5953a1b2a20957239eb27e8"
+  integrity sha512-tfMDGiAte5Pbsg53zUDjkx8jiBeojr+Jl688Lp3gh40HhPfTyVF6//+1Dplcw4M8FH11TDFxg8+kXDDkgxeaHA==
+
 use@^3.1.0:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/use/-/use-3.1.1.tgz#d50c8cac79a19fbc20f2911f56eb973f4e10070f"
