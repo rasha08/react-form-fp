@@ -4,6 +4,8 @@ const ExampleWrapper = ({ title, id, example: Example, doc: Doc }: any) => {
   const [docsOpen, setDocsOpen] = useState(false)
   return (
     <>
+      <div className={'margin-top-large'} />
+      <hr />
       <h4 id={id}>{title}</h4>
       <div className='example row'>
         <Example />

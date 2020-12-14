@@ -11,7 +11,6 @@ enum FormName {
 enum FormField {
   FirstName = 'firstName',
   LastName = 'lastName',
-  NumberOfChildren = 'numberOfChildren',
   Married = 'married',
   WifeName = 'wifeName'
 }
@@ -20,7 +19,6 @@ type FormState = {
   firstName: string
   lastName: string
   married: boolean
-  numberOfChildren: number
   wifeName: string
 }
 
@@ -30,13 +28,6 @@ const validation: ValidationSchema<FormName, FormField> = {
       !!val.trim() ? null : 'First name is required',
     lastName: () => null,
     married: () => null,
-    numberOfChildren: (val: number, state?: { example: FormState }) => {
-      if (state?.example.married) {
-        return val > 0 ? null : 'Please specify how many children do you have.'
-      }
-
-      return null
-    },
     wifeName: () => null
   }
 }
@@ -156,7 +147,6 @@ export default () => (
         firstName: '',
         lastName: '',
         married: false,
-        numberOfChildren: undefined,
         wifeName: undefined
       }
     }}
