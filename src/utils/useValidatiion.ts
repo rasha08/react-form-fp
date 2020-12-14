@@ -1,11 +1,16 @@
-import { has, curryN, compose } from 'ramda'
+import { has, curryN } from 'ramda'
+
+export type Validator<VT = any, ST = any> = (
+  value: VT,
+  state?: ST
+) => string | null
 
 export type ValidationSchema<
   FormName extends number | string = string,
   FormField extends number | string = string
 > = {
   [key in FormName]: {
-    [key in FormField]: (value: any) => string | null
+    [key in FormField]: Validator
   }
 }
 
@@ -22,8 +27,13 @@ export const useValidation = (
   )
 
   const validate = curryN(
-    3,
-    (formName: string, fieldName: string, value: any): void => {
+    4,
+    (
+      formName: string | any,
+      fieldName: string | any,
+      value: any,
+      state?: any
+    ): void => {
       if (!has(formName, validationSchema)) {
         return
       }
@@ -33,13 +43,14 @@ export const useValidation = (
 
       const validateField = validationSchema[formName][fieldName]
 
-      compose(setErrorIfNeeded(fieldName as any), validateField)(value)
+      setErrorIfNeeded(fieldName as any)(validateField(value, state))
     }
   )
 
   const validateAll = (
     formName: string | number,
-    values: { [key: string]: any }
+    values: { [key: string]: any },
+    state?: any
   ): boolean => {
     const errors: boolean[] = []
 
@@ -59,11 +70,9 @@ export const useValidation = (
         return
       }
 
-      compose(
-        setErrorIfNeeded(fieldName as any),
-        addToErrors,
-        validationSchema[formName][fieldName]
-      )(value)
+      setErrorIfNeeded(fieldName as any)(
+        addToErrors(validationSchema[formName][fieldName](value, state))
+      )
     })
 
     return !errors.length

@@ -12,6 +12,7 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+  white-space: pre-wrap;
 }
 
 .beta-warn {
@@ -59,6 +60,11 @@ blockquote {
   max-height: 500px;
   max-width: 100%;
   overflow: auto;
+  width: 100%;
+}
+
+.example-doc div {
+  width: 100%;
 }
 
 pre {
@@ -89,4 +95,15 @@ a {
     linear-gradient(165deg, transparent 5%, #000000 15%, transparent 25%),
     linear-gradient(165deg, transparent 45%, #000000 55%, transparent 65%),
     linear-gradient(15deg, transparent 25%, #000000 35%, transparent 50%);
+  text-decoration: none !important;
+}
+
+h4 small {
+  display: block;
+  padding: 5px 30px;
+  font-size: 20px;
+  text-decoration: none !important;
+}
+h4 {
+  text-decoration: none !important;
 }

@@ -1,4 +1,4 @@
-import React, { useCallback, ChangeEvent } from 'react'
+import React, { useCallback, ChangeEvent, useEffect, useMemo } from 'react'
 import {
   FormContextProvider,
   ValidationSchema,
@@ -10,30 +10,48 @@ enum FormName {
 }
 enum FormField {
   FirstName = 'firstName',
-  LastName = 'lastName'
+  LastName = 'lastName',
+  NumberOfChildren = 'numberOfChildren',
+  Married = 'married',
+  WifeName = 'wifeName'
 }
 
 type FormState = {
   firstName: string
   lastName: string
+  married: boolean
+  numberOfChildren: number
+  wifeName: string
 }
 
 const validation: ValidationSchema<FormName, FormField> = {
   example: {
     firstName: (val: string) =>
       !!val.trim() ? null : 'First name is required',
-    lastName: () => null // Empty validator
+    lastName: () => null,
+    married: () => null,
+    numberOfChildren: (val: number, state?: { example: FormState }) => {
+      if (state?.example.married) {
+        return val > 0 ? null : 'Please specify how many children do you have.'
+      }
+
+      return null
+    },
+    wifeName: () => null
   }
 }
 
-const SimpleFormValidationExample = () => {
+const DynamicValidators = () => {
   const {
     setFieldValue,
     validate,
     validateForm,
     state,
-    state: { errors, example }
+    state: { errors, example },
+    setValidator
   } = useFormContext<FormName, FormState>()
+
+  const married = useMemo(() => example.married, [example])
 
   const handleFieldChange = useCallback(
     (field: FormField) => ({
@@ -43,6 +61,10 @@ const SimpleFormValidationExample = () => {
     },
     [setFieldValue]
   )
+
+  const handleCheckboxChange = useCallback(() => {
+    setFieldValue(FormName.Example)(FormField.Married)(!example.married)
+  }, [setFieldValue, example])
 
   const validateField = useCallback(
     (field: FormField) => ({
@@ -58,6 +80,18 @@ const SimpleFormValidationExample = () => {
       alert(JSON.stringify(example, null, 2))
     }
   }, [validateForm, example])
+
+  useEffect(() => {
+    if (married) {
+      // Set new validator
+      setValidator(FormName.Example, FormField.WifeName, (val: string) => {
+        return val?.length > 2 ? null : 'Name must be at least 3 chars long.'
+      })
+    } else {
+      // Clear validator
+      setValidator(FormName.Example, FormField.WifeName, () => null)
+    }
+  }, [married])
 
   return (
     <>
@@ -80,6 +114,29 @@ const SimpleFormValidationExample = () => {
         />
         {!!errors.lastName && <p className='text-danger'>{errors.lastName}</p>}
 
+        <label className='row paper-check'>
+          <input
+            id='switch8'
+            type='checkbox'
+            checked={example.married}
+            onChange={handleCheckboxChange}
+          />
+          <span className='paper-switch-slider'>Are you married?</span>
+        </label>
+        <br />
+        {example.married && (
+          <>
+            <label>Wife's Name</label>
+            <input
+              value={example.wifeName}
+              onChange={handleFieldChange(FormField.WifeName)}
+              onBlur={validateField(FormField.WifeName)}
+            />
+            {!!errors.wifeName && (
+              <p className='text-danger'>{errors.wifeName}</p>
+            )}
+          </>
+        )}
         <button onClick={submit}>Submit Form</button>
       </div>
       <div className='col-6'>
@@ -94,9 +151,17 @@ const SimpleFormValidationExample = () => {
 
 export default () => (
   <FormContextProvider<FormName, FormState>
-    initialState={{ example: { firstName: '', lastName: '' } }}
+    initialState={{
+      example: {
+        firstName: '',
+        lastName: '',
+        married: false,
+        numberOfChildren: undefined,
+        wifeName: undefined
+      }
+    }}
     validationSchema={validation}
   >
-    <SimpleFormValidationExample />
+    <DynamicValidators />
   </FormContextProvider>
 )

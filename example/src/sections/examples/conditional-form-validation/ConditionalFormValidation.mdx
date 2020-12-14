@@ -1,3 +1,4 @@
+```tsx
 import React, { useCallback, ChangeEvent } from 'react'
 import {
   FormContextProvider,
@@ -43,7 +44,6 @@ const ConditionalFormValidationExample = () => {
     setFieldValue,
     validate,
     validateForm,
-    state,
     state: { errors, example }
   } = useFormContext<FormName, FormState>()
 
@@ -76,60 +76,50 @@ const ConditionalFormValidationExample = () => {
   }, [validateForm, example])
 
   return (
-    <>
-      <div className='form-group col-6'>
-        <label>First Name</label>
-        <input
-          value={example.firstName}
-          onChange={handleFieldChange(FormField.FirstName)}
-          onBlur={validateField(FormField.FirstName)}
-        />
-        {!!errors.firstName && (
-          <p className='text-danger'>{errors.firstName}</p>
-        )}
+    <div className='form-group'>
+      <label>First Name</label>
+      <input
+        value={example.firstName}
+        onChange={handleFieldChange(FormField.FirstName)}
+        onBlur={validateField(FormField.FirstName)}
+      />
+      {!!errors.firstName && <p className='text-danger'>{errors.firstName}</p>}
 
-        <label>Last Name</label>
-        <input
-          value={example.lastName}
-          onChange={handleFieldChange(FormField.LastName)}
-          onBlur={validateField(FormField.LastName)}
-        />
-        {!!errors.lastName && <p className='text-danger'>{errors.lastName}</p>}
+      <label>Last Name</label>
+      <input
+        value={example.lastName}
+        onChange={handleFieldChange(FormField.LastName)}
+        onBlur={validateField(FormField.LastName)}
+      />
+      {!!errors.lastName && <p className='text-danger'>{errors.lastName}</p>}
 
-        <label className='row paper-check'>
+      <label className='row paper-check'>
+        <input
+          id='paperSwitch4'
+          name='paperSwitch4'
+          type='checkbox'
+          checked={example.hasKids}
+          onChange={handleCheckboxChange}
+        />
+        <span className='paper-switch-slider'>Do you have kids?</span>
+      </label>
+      <br />
+      {example.hasKids && (
+        <>
+          <label>Number Of children</label>
           <input
-            id='paperSwitch4'
-            name='paperSwitch4'
-            type='checkbox'
-            checked={example.hasKids}
-            onChange={handleCheckboxChange}
+            type='number'
+            value={example.numberOfChildren}
+            onChange={handleFieldChange(FormField.NumberOfChildren)}
+            onBlur={validateField(FormField.NumberOfChildren)}
           />
-          <span className='paper-switch-slider'>Do you have kids?</span>
-        </label>
-        <br />
-        {example.hasKids && (
-          <>
-            <label>Number Of children</label>
-            <input
-              type='number'
-              value={example.numberOfChildren}
-              onChange={handleFieldChange(FormField.NumberOfChildren)}
-              onBlur={validateField(FormField.NumberOfChildren)}
-            />
-            {!!errors.numberOfChildren && (
-              <p className='text-danger'>{errors.numberOfChildren}</p>
-            )}
-          </>
-        )}
-        <button onClick={submit}>Submit Form</button>
-      </div>
-      <div className='col-6'>
-        <b>Form ContextState</b>
-        <pre>
-          <code>{JSON.stringify(state, null, 2)}</code>
-        </pre>
-      </div>
-    </>
+          {!!errors.numberOfChildren && (
+            <p className='text-danger'>{errors.numberOfChildren}</p>
+          )}
+        </>
+      )}
+      <button onClick={submit}>Submit Form</button>
+    </div>
   )
 }
 
@@ -140,7 +130,7 @@ export default () => (
         firstName: '',
         lastName: '',
         hasKids: false,
-        numberOfChildren: undefined
+        numberOfChildren: 0
       }
     }}
     validationSchema={validation}
@@ -148,3 +138,4 @@ export default () => (
     <ConditionalFormValidationExample />
   </FormContextProvider>
 )
+```

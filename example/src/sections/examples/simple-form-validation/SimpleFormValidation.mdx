@@ -72,8 +72,8 @@ const SimpleFormValidationExample = () => {
       <label>Last Name</label>
       <input
         value={example.lastName}
-        onChange={handleFieldChange(FormField.FirstName)}
-        onBlur={validateField(FormField.FirstName)}
+        onChange={handleFieldChange(FormField.LastName)}
+        onBlur={validateField(FormField.LastName)}
       />
       {!!errors.lastName && <p className='text-danger'>{errors.lastName}</p>}
 
