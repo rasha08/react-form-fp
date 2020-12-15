@@ -123,20 +123,6 @@ Type of setValidator function is:
 
 #### Simple Form validation
 
-First NameLast NameSubmit Form
-
-**Form ContextState**
-
-```
-{
-  "example": {
-    "firstName": "",
-    "lastName": ""
-  },
-  "errors": {}
-}
-```
-
 ```tsx
 import React, { useCallback, ChangeEvent } from 'react'
 import {
@@ -234,22 +220,6 @@ export default () => (
 ---
 
 #### Conditional Form validation
-
-First NameLast NameDo you have kids?
-Submit Form
-
-**Form ContextState**
-
-```
-{
-  "example": {
-    "firstName": "",
-    "lastName": "",
-    "hasKids": false
-  },
-  "errors": {}
-}
-```
 
 ```tsx
 import React, { useCallback, ChangeEvent } from 'react'
@@ -396,22 +366,6 @@ export default () => (
 ---
 
 #### Adding and removing Validators
-
-First NameLast NameAre you married?
-Submit Form
-
-**Form ContextState**
-
-```
-{
-  "example": {
-    "firstName": "",
-    "lastName": "",
-    "married": false
-  },
-  "errors": {}
-}
-```
 
 ```tsx
 import React, { useCallback, ChangeEvent, useEffect, useMemo } from 'react'

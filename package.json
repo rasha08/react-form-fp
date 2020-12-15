@@ -1,6 +1,6 @@
 {
   "name": "react-form-fp",
-  "version": "1.1.1",
+  "version": "1.1.4",
   "description": "A form validation library for React, build with FP principles for easy form state and validation handling or even individual fields.",
   "author": "rasha08",
   "license": "MIT",
@@ -9,6 +9,7 @@
   "main": "dist/index.js",
   "module": "dist/index.modern.js",
   "source": "src/index.ts",
+  "keywords": ["react", "react-form", "handling-forms", "validation", "context", "hooks", "immutable"],
   "engines": {
     "node": ">=10"
   },
