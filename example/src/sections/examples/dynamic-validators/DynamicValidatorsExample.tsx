@@ -93,8 +93,8 @@ const DynamicValidators = () => {
           onChange={handleFieldChange(FormField.FirstName)}
           onBlur={validateField(FormField.FirstName)}
         />
-        {!!errors.firstName && (
-          <p className='text-danger'>{errors.firstName}</p>
+        {!!errors.example.firstName && (
+          <p className='text-danger'>{errors.example.firstName}</p>
         )}
 
         <label>Last Name</label>
@@ -103,7 +103,9 @@ const DynamicValidators = () => {
           onChange={handleFieldChange(FormField.LastName)}
           onBlur={validateField(FormField.LastName)}
         />
-        {!!errors.lastName && <p className='text-danger'>{errors.lastName}</p>}
+        {!!errors.example.lastName && (
+          <p className='text-danger'>{errors.example.lastName}</p>
+        )}
 
         <label className='row paper-check'>
           <input
@@ -123,8 +125,8 @@ const DynamicValidators = () => {
               onChange={handleFieldChange(FormField.WifeName)}
               onBlur={validateField(FormField.WifeName)}
             />
-            {!!errors.wifeName && (
-              <p className='text-danger'>{errors.wifeName}</p>
+            {!!errors.example.wifeName && (
+              <p className='text-danger'>{errors.example.wifeName}</p>
             )}
           </>
         )}

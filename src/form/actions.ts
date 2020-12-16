@@ -1,4 +1,5 @@
 import {
+  ADD_FIELD,
   CLEAR_FIELD_ERROR,
   FieldName,
   FieldValue,
@@ -28,28 +29,65 @@ export const useFormActions = <FormName extends string | number, T>(
     })
   }
 
-  const setFieldErrorAction = (field: FieldName<T>, error: string): void => {
+  const setFieldErrorAction = (
+    formName: FormName,
+    field: FieldName<T>,
+    error: string
+  ): void => {
     dispatch({
       type: SET_FILED_ERROR,
       payload: {
+        formName,
         field,
         error
       }
     })
   }
 
-  const clearFieldError = (field: FieldName<T>): void => {
-    if (!state.errors[field]) {
+  const clearFieldError = (formName: FormName, field: FieldName<T>): void => {
+    if (!state.errors[formName] || !state.errors[formName][field]) {
       return
     }
 
     dispatch({
       type: CLEAR_FIELD_ERROR,
       payload: {
+        formName,
         field
       }
     })
   }
 
-  return { setFieldValueAction, setFieldErrorAction, clearFieldError }
+  const addFieldAction = (
+    formName: FormName,
+    field: string,
+    value: FieldValue
+  ): void => {
+    dispatch({
+      type: ADD_FIELD,
+      payload: {
+        formName,
+        field,
+        value
+      }
+    } as any)
+  }
+
+  const removeFieldAction = (formName: FormName, field: string): void => {
+    dispatch({
+      type: ADD_FIELD,
+      payload: {
+        formName,
+        field
+      }
+    } as any)
+  }
+
+  return {
+    setFieldValueAction,
+    setFieldErrorAction,
+    clearFieldError,
+    addFieldAction,
+    removeFieldAction
+  }
 }

@@ -25,7 +25,6 @@ type SetValidator<FormName extends string | number, T, ValueType = any> = (
   field: keyof T,
   validator: Validator<ValueType>
 ) => void
-
 type Validate<FormName extends string | number, T> = (
   formName: FormName
 ) => (fieldName: FieldName<T>) => (value: FieldValue) => void
@@ -36,6 +35,16 @@ type ValidateForm<FormName extends string | number, T> = (
   formName: FormName,
   values: T
 ) => boolean
+type AddField<FormName extends string | number, ValueType = FieldValue> = (
+  formName: FormName,
+  field: string,
+  value: FieldValue,
+  validator?: Validator<ValueType>
+) => void
+type RemoveField<FormName extends string | number> = (
+  formName: FormName,
+  field: string
+) => void
 
 type UseFormContext<FormName extends string | number, T> = {
   state: FormContextState<FormName, T>
@@ -43,6 +52,8 @@ type UseFormContext<FormName extends string | number, T> = {
   setFieldValue: SetFieldValue<FormName, T>
   validateForm: ValidateForm<FormName, T>
   setValidator: SetValidator<FormName, T>
+  addField: AddField<FormName>
+  removeField: RemoveField<FormName>
 }
 
 const FormContext = createContext({} as any)
@@ -66,7 +77,7 @@ export const FormContextProvider: Form = <FormName extends string | number, T>({
 }) => {
   const [state, dispatch] = useReducer(formReducer, {
     ...initialState,
-    ...{ errors: {} }
+    errors: Object.fromEntries(Object.keys(initialState).map((k) => [k, {}]))
   })
 
   const [validationSchema, setValidationSchema] = useState(vs)
@@ -74,9 +85,11 @@ export const FormContextProvider: Form = <FormName extends string | number, T>({
   const {
     setFieldErrorAction,
     clearFieldError,
-    setFieldValueAction
+    setFieldValueAction,
+    addFieldAction,
+    removeFieldAction
   } = useFormActions<FormName, T>(
-    state as FormContextState<FormName, T>,
+    (state as unknown) as FormContextState<FormName, T>,
     dispatch as FormActionDispatcher<FormName, T>
   )
 
@@ -93,8 +106,7 @@ export const FormContextProvider: Form = <FormName extends string | number, T>({
   const setFieldValue: SetFieldValue<FormName, T> = (formName) => (
     fieldName
   ) => (value) => {
-    if ((state as FormContextState<FormName, T>).errors[fieldName]) {
-      // @ts-ignore
+    if (state.errors[formName][fieldName as any]) {
       validate(formName)(fieldName)(value)
     }
 
@@ -116,11 +128,35 @@ export const FormContextProvider: Form = <FormName extends string | number, T>({
   }
 
   const validate: Validate<FormName, T> = (formName) => (formField) => (
-    value: any
+    value: FieldValue
   ) => validateField(formName, formField, value, state)
+
+  const addField: AddField<FormName> = (
+    formName,
+    field,
+    value,
+    validator = (_) => null
+  ) => {
+    addFieldAction(formName, field, value)
+    setValidator(formName, (field as unknown) as keyof T, validator)
+  }
+
+  const removeField: RemoveField<FormName> = (formName, field) => {
+    removeFieldAction(formName, field)
+    setValidator(formName, (field as unknown) as keyof T, () => null)
+  }
+
   return (
     <FormContext.Provider
-      value={{ setFieldValue, validate, state, validateForm, setValidator }}
+      value={{
+        setFieldValue,
+        validate,
+        state,
+        validateForm,
+        setValidator,
+        addField,
+        removeField
+      }}
     >
       {children}
     </FormContext.Provider>

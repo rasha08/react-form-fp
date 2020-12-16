@@ -16,15 +16,18 @@ export type ValidationSchema<
 
 export const useValidation = (
   validationSchema: ValidationSchema,
-  setError: (field: any, error: string) => void,
-  clearError: (field: any) => void
+  setError: (formName: any, field: any, error: string) => void,
+  clearError: (formName: any, field: any) => void
 ) => {
-  const setErrorIfNeeded = curryN(
-    2,
-    (fieldName: string, error: string | null) => {
-      return error ? setError(fieldName, error) : clearError(fieldName)
-    }
-  )
+  const setErrorIfNeeded = (
+    formName: string | number,
+    fieldName: string,
+    error: string | null
+  ) => {
+    return error
+      ? setError(formName, fieldName, error)
+      : clearError(formName, fieldName)
+  }
 
   const validate = curryN(
     4,
@@ -43,7 +46,7 @@ export const useValidation = (
 
       const validateField = validationSchema[formName][fieldName]
 
-      setErrorIfNeeded(fieldName as any)(validateField(value, state))
+      setErrorIfNeeded(formName, fieldName as any, validateField(value, state))
     }
   )
 
@@ -70,7 +73,9 @@ export const useValidation = (
         return
       }
 
-      setErrorIfNeeded(fieldName as any)(
+      setErrorIfNeeded(
+        formName,
+        fieldName,
         addToErrors(validationSchema[formName][fieldName](value, state))
       )
     })

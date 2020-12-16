@@ -11,6 +11,7 @@ const Usage = () => {
           <ul>
             <li>Form State and Errors</li>
             <li>Field value update handler</li>
+            <li>Adding and Removing form fields</li>
           </ul>
         </li>
         <li>
@@ -117,6 +118,29 @@ const Usage = () => {
       <br />
       <code>{`<input value={login.username} onChange={handleFieldChange('username')} ... />`}</code>
 
+      <h4 id='add-remove-field'>Adding and Removing Form Fields</h4>
+      <p>
+        Sometimes you will need to add new fields to a form, or to remove the
+        existing ones, depending on your application logic
+      </p>
+      <p>
+        <b>Add Form Field</b> (<i>Validator is optional</i>)
+      </p>
+      <code>{`type AddField<FormName extends string | number, ValueType = FieldValue> = (
+  formName: FormName,
+  field: string,
+  value: FieldValue,
+  validator?: Validator<ValueType>
+) => void`}</code>
+      <p>
+        <b>Remove Form Field</b> (<i>Validator will be removed</i>)
+      </p>
+      <code>
+        {`type RemoveField<FormName extends string | number> = (
+  formName: FormName,
+  field: string
+) => void`}
+      </code>
       <h4 id='reading-errors'>Errors</h4>
       <p>
         Errors are stored inside of the{' '}
@@ -137,13 +161,20 @@ const Usage = () => {
         </b>{' '}
         value
       </p>
+      <p>Error State type is:</p>
+      <code>{`type ErrorState<FormName extends number | string, T> = {
+  errors: {
+    [key in FormName]: {
+      [key in FieldName<T>]: string | null
+    }
+  }`}</code>
       <p>
         In our login example, error message logic for <i>username</i> field
         should look something like this
       </p>
       <code>...</code>
       <br />
-      <code>{`{!!errors.username && <p className='text-danger'>{errors.username}</p>} `}</code>
+      <code>{`{!!errors.example.username && <p className='text-danger'>{errors.example.username}</p>} `}</code>
       <br />
       <code>...</code>
 
@@ -241,7 +272,7 @@ const Usage = () => {
         from initial validation schema.
       </p>
       <p>Type of setValidator function is: </p>
-      <code>{`SetValidator<FormName extends string | number, T, ValueType = unknown> = (
+      s<code>{`SetValidator<FormName extends string | number, T, ValueType = unknown> = (
   formName: FormName,
   field: keyof T,
   validator: Validator<ValueType>

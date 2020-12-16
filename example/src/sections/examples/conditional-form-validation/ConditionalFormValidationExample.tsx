@@ -84,8 +84,8 @@ const ConditionalFormValidationExample = () => {
           onChange={handleFieldChange(FormField.FirstName)}
           onBlur={validateField(FormField.FirstName)}
         />
-        {!!errors.firstName && (
-          <p className='text-danger'>{errors.firstName}</p>
+        {!!errors.example.firstName && (
+          <p className='text-danger'>{errors.example.firstName}</p>
         )}
 
         <label>Last Name</label>
@@ -94,7 +94,9 @@ const ConditionalFormValidationExample = () => {
           onChange={handleFieldChange(FormField.LastName)}
           onBlur={validateField(FormField.LastName)}
         />
-        {!!errors.lastName && <p className='text-danger'>{errors.lastName}</p>}
+        {!!errors.example.lastName && (
+          <p className='text-danger'>{errors.example.lastName}</p>
+        )}
 
         <label className='row paper-check'>
           <input
@@ -116,8 +118,8 @@ const ConditionalFormValidationExample = () => {
               onChange={handleFieldChange(FormField.NumberOfChildren)}
               onBlur={validateField(FormField.NumberOfChildren)}
             />
-            {!!errors.numberOfChildren && (
-              <p className='text-danger'>{errors.numberOfChildren}</p>
+            {!!errors.example.numberOfChildren && (
+              <p className='text-danger'>{errors.example.numberOfChildren}</p>
             )}
           </>
         )}

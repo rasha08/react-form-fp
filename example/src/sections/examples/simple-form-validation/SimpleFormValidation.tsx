@@ -68,8 +68,8 @@ const SimpleFormValidationExample = () => {
           onChange={handleFieldChange(FormField.FirstName)}
           onBlur={validateField(FormField.FirstName)}
         />
-        {!!errors.firstName && (
-          <p className='text-danger'>{errors.firstName}</p>
+        {!!errors.example.firstName && (
+          <p className='text-danger'>{errors.example.firstName}</p>
         )}
 
         <label>Last Name</label>
@@ -78,7 +78,9 @@ const SimpleFormValidationExample = () => {
           onChange={handleFieldChange(FormField.LastName)}
           onBlur={validateField(FormField.LastName)}
         />
-        {!!errors.lastName && <p className='text-danger'>{errors.lastName}</p>}
+        {!!errors.example.lastName && (
+          <p className='text-danger'>{errors.example.lastName}</p>
+        )}
 
         <button onClick={submit}>Submit Form</button>
       </div>

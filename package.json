@@ -1,6 +1,6 @@
 {
   "name": "react-form-fp",
-  "version": "1.1.4",
+  "version": "2.0.0",
   "description": "A form validation library for React, build with FP principles for easy form state and validation handling or even individual fields.",
   "author": "rasha08",
   "license": "MIT",

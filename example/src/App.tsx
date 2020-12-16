@@ -4,7 +4,7 @@ import './index.css'
 import About from './sections/About'
 import SideBar from './sections/Sidebar'
 import Header from './sections/Header'
-import Notice from './sections/Notice'
+// import Notice from './sections/Notice'
 import Installation from './sections/Instalation'
 import Usage from './sections/Usage'
 import Examples from './sections/Examples'
@@ -13,7 +13,7 @@ const App = () => {
   return (
     <div className='container-fluid'>
       <Header />
-      <Notice />
+      {/* <Notice /> */}
       <div className='row flex-center'>
         <SideBar />
         <div className='md-8 offset-1'>
